@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name "dumbwatch")(type "KiCad")(uri "${KIPRJMOD}/dumbwatch.kicad_sym")(options "")(descr ""))
+  (lib (name "canhw")(type "Legacy")(uri "/home/blu/Programming/rocketry/canhw/lib/canhw.lib")(options "")(descr ""))
+)
