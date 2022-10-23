@@ -1,5 +1,3 @@
 (fp_lib_table
-  (lib (name "canhw_footprints")(type "KiCad")(uri "/home/blu/Programming/rocketry/canhw/lib/canhw_footprints.pretty")(options "")(descr ""))
   (lib (name "dumbwatch")(type "KiCad")(uri "${KIPRJMOD}/dumbwatch.pretty")(options "")(descr ""))
-  (lib (name "Team_Logo")(type "KiCad")(uri "/home/blu/Programming/rocketry/canhw/lib/team_logo/Team_Logo.pretty")(options "")(descr ""))
 )

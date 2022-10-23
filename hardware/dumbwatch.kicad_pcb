@@ -3184,7 +3184,7 @@
   (dimension (type aligned) (layer "Dwgs.User") (tstamp 34be1cac-0ca3-4437-8b9f-4c60cfe783e8)
     (pts (xy 100.996 134.62) (xy 102.362 134.62))
     (height 4.826)
-    (gr_text "1.3660 mm" (at 102.108 141.224) (layer "Dwgs.User") (tstamp 6e3b9de1-e060-45bb-a3b9-08cbc9c6a2df)
+    (gr_text "1.3660 mm" (at 102.108 141.224) (layer "Dwgs.User") (tstamp 34be1cac-0ca3-4437-8b9f-4c60cfe783e8)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (format (units 3) (units_format 1) (precision 4))
