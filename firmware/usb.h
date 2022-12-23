@@ -1,8 +1,8 @@
 #ifndef USB_H
 #define USB_H
 
-void usb_heartbeat(void);
+#include <stdbool.h>
 
-void usb_trig(void);
+bool usb_heartbeat(void);
 
 #endif

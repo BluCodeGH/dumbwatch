@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=mcc_generated_files/usb/usb_device_events.c mcc_generated_files/usb/usb_descriptors.c mcc_generated_files/usb/usb_device_cdc.c mcc_generated_files/usb/usb_device.c mcc_generated_files/device_config.c main.c epd.c usb.c rtc.c graphics.c
+SOURCEFILES_QUOTED_IF_SPACED=mcc_generated_files/usb/usb_device_events.c mcc_generated_files/usb/usb_descriptors.c mcc_generated_files/usb/usb_device_cdc.c mcc_generated_files/usb/usb_device.c mcc_generated_files/device_config.c main.c epd.c usb.c graphics.c board.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/mcc_generated_files/usb/usb_device_events.p1 ${OBJECTDIR}/mcc_generated_files/usb/usb_descriptors.p1 ${OBJECTDIR}/mcc_generated_files/usb/usb_device_cdc.p1 ${OBJECTDIR}/mcc_generated_files/usb/usb_device.p1 ${OBJECTDIR}/mcc_generated_files/device_config.p1 ${OBJECTDIR}/main.p1 ${OBJECTDIR}/epd.p1 ${OBJECTDIR}/usb.p1 ${OBJECTDIR}/rtc.p1 ${OBJECTDIR}/graphics.p1
-POSSIBLE_DEPFILES=${OBJECTDIR}/mcc_generated_files/usb/usb_device_events.p1.d ${OBJECTDIR}/mcc_generated_files/usb/usb_descriptors.p1.d ${OBJECTDIR}/mcc_generated_files/usb/usb_device_cdc.p1.d ${OBJECTDIR}/mcc_generated_files/usb/usb_device.p1.d ${OBJECTDIR}/mcc_generated_files/device_config.p1.d ${OBJECTDIR}/main.p1.d ${OBJECTDIR}/epd.p1.d ${OBJECTDIR}/usb.p1.d ${OBJECTDIR}/rtc.p1.d ${OBJECTDIR}/graphics.p1.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/mcc_generated_files/usb/usb_device_events.p1 ${OBJECTDIR}/mcc_generated_files/usb/usb_descriptors.p1 ${OBJECTDIR}/mcc_generated_files/usb/usb_device_cdc.p1 ${OBJECTDIR}/mcc_generated_files/usb/usb_device.p1 ${OBJECTDIR}/mcc_generated_files/device_config.p1 ${OBJECTDIR}/main.p1 ${OBJECTDIR}/epd.p1 ${OBJECTDIR}/usb.p1 ${OBJECTDIR}/graphics.p1 ${OBJECTDIR}/board.p1
+POSSIBLE_DEPFILES=${OBJECTDIR}/mcc_generated_files/usb/usb_device_events.p1.d ${OBJECTDIR}/mcc_generated_files/usb/usb_descriptors.p1.d ${OBJECTDIR}/mcc_generated_files/usb/usb_device_cdc.p1.d ${OBJECTDIR}/mcc_generated_files/usb/usb_device.p1.d ${OBJECTDIR}/mcc_generated_files/device_config.p1.d ${OBJECTDIR}/main.p1.d ${OBJECTDIR}/epd.p1.d ${OBJECTDIR}/usb.p1.d ${OBJECTDIR}/graphics.p1.d ${OBJECTDIR}/board.p1.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/mcc_generated_files/usb/usb_device_events.p1 ${OBJECTDIR}/mcc_generated_files/usb/usb_descriptors.p1 ${OBJECTDIR}/mcc_generated_files/usb/usb_device_cdc.p1 ${OBJECTDIR}/mcc_generated_files/usb/usb_device.p1 ${OBJECTDIR}/mcc_generated_files/device_config.p1 ${OBJECTDIR}/main.p1 ${OBJECTDIR}/epd.p1 ${OBJECTDIR}/usb.p1 ${OBJECTDIR}/rtc.p1 ${OBJECTDIR}/graphics.p1
+OBJECTFILES=${OBJECTDIR}/mcc_generated_files/usb/usb_device_events.p1 ${OBJECTDIR}/mcc_generated_files/usb/usb_descriptors.p1 ${OBJECTDIR}/mcc_generated_files/usb/usb_device_cdc.p1 ${OBJECTDIR}/mcc_generated_files/usb/usb_device.p1 ${OBJECTDIR}/mcc_generated_files/device_config.p1 ${OBJECTDIR}/main.p1 ${OBJECTDIR}/epd.p1 ${OBJECTDIR}/usb.p1 ${OBJECTDIR}/graphics.p1 ${OBJECTDIR}/board.p1
 
 # Source Files
-SOURCEFILES=mcc_generated_files/usb/usb_device_events.c mcc_generated_files/usb/usb_descriptors.c mcc_generated_files/usb/usb_device_cdc.c mcc_generated_files/usb/usb_device.c mcc_generated_files/device_config.c main.c epd.c usb.c rtc.c graphics.c
+SOURCEFILES=mcc_generated_files/usb/usb_device_events.c mcc_generated_files/usb/usb_descriptors.c mcc_generated_files/usb/usb_device_cdc.c mcc_generated_files/usb/usb_device.c mcc_generated_files/device_config.c main.c epd.c usb.c graphics.c board.c
 
 
 
@@ -158,14 +158,6 @@ ${OBJECTDIR}/usb.p1: usb.c  nbproject/Makefile-${CND_CONF}.mk
 	@-${MV} ${OBJECTDIR}/usb.d ${OBJECTDIR}/usb.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/usb.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
-${OBJECTDIR}/rtc.p1: rtc.c  nbproject/Makefile-${CND_CONF}.mk 
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/rtc.p1.d 
-	@${RM} ${OBJECTDIR}/rtc.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=pickit3   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/rtc.p1 rtc.c 
-	@-${MV} ${OBJECTDIR}/rtc.d ${OBJECTDIR}/rtc.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/rtc.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
-	
 ${OBJECTDIR}/graphics.p1: graphics.c  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/graphics.p1.d 
@@ -173,6 +165,14 @@ ${OBJECTDIR}/graphics.p1: graphics.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=pickit3   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/graphics.p1 graphics.c 
 	@-${MV} ${OBJECTDIR}/graphics.d ${OBJECTDIR}/graphics.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/graphics.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/board.p1: board.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/board.p1.d 
+	@${RM} ${OBJECTDIR}/board.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=pickit3   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/board.p1 board.c 
+	@-${MV} ${OBJECTDIR}/board.d ${OBJECTDIR}/board.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/board.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
 else
 ${OBJECTDIR}/mcc_generated_files/usb/usb_device_events.p1: mcc_generated_files/usb/usb_device_events.c  nbproject/Makefile-${CND_CONF}.mk 
@@ -239,14 +239,6 @@ ${OBJECTDIR}/usb.p1: usb.c  nbproject/Makefile-${CND_CONF}.mk
 	@-${MV} ${OBJECTDIR}/usb.d ${OBJECTDIR}/usb.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/usb.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
-${OBJECTDIR}/rtc.p1: rtc.c  nbproject/Makefile-${CND_CONF}.mk 
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/rtc.p1.d 
-	@${RM} ${OBJECTDIR}/rtc.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/rtc.p1 rtc.c 
-	@-${MV} ${OBJECTDIR}/rtc.d ${OBJECTDIR}/rtc.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/rtc.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
-	
 ${OBJECTDIR}/graphics.p1: graphics.c  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/graphics.p1.d 
@@ -254,6 +246,14 @@ ${OBJECTDIR}/graphics.p1: graphics.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/graphics.p1 graphics.c 
 	@-${MV} ${OBJECTDIR}/graphics.d ${OBJECTDIR}/graphics.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/graphics.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/board.p1: board.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/board.p1.d 
+	@${RM} ${OBJECTDIR}/board.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mdefault-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=compiled:auto:auto:auto     -o ${OBJECTDIR}/board.p1 board.c 
+	@-${MV} ${OBJECTDIR}/board.d ${OBJECTDIR}/board.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/board.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
 endif
 

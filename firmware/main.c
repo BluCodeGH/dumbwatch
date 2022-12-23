@@ -1,20 +1,22 @@
 #include <xc.h>
 #include "mcc_generated_files/usb/usb.h"
+#include "mcc_generated_files/device_config.h"
 
 #include "epd.h"
 #include "usb.h"
-#include "rtc.h"
+#include "board.h"
 #include "graphics.h"
 
 void main(void) {
+    // Set primary clock
+    OSCTUNEbits.PLLEN = 0;
+    OSCCON = 0x73;
+    
     bool from_sleep = WDTCONbits.DS;
     if (from_sleep) {
         WDTCONbits.DS = 0; // Clear flag
         DSCONLbits.RELEASE = 0; // Release GPIO from values held during sleep
     }
-    // Set up oscillators
-    // SCS FOSC; IRCF 8MHz; IDLEN disabled; 
-    OSCCON = 0x70;
     
     // Enable interrupts
     INTCONbits.GIE = 1;
@@ -22,26 +24,38 @@ void main(void) {
     
     if (!from_sleep) {
         rtc_init();
+        DSGPR0 = 0; // mark that we haven't had our time set by USB
     }
     
-    TRISCbits.TRISC2 = 1;
-    ANCON1bits.PCFG11 = 0;
-    ADCON1bits.ADFM = 1;
-    ADCON1bits.ADCS = 0b110;
-    ADCON1bits.ACQT = 0b010;
-    ADCON0bits.CHS = 11;
-    ADCON0bits.ADON = 1;
-    ADCON0bits.GO = 1;
-    while (ADCON0bits.GO);
-    uint16_t batt_voltage = (((uint16_t)ADRESH) << 8) | ADRESL;
-    uint16_t batt_voltage_mv = batt_voltage * 30 / 7;
+    ANCON0bits.PCFG2 = 1;
+    TRISA2 = 1;
+    if (RA2 && !DSGPR0) { // USB is connected
+        __delay_ms(500); // see if we are about to be programmed
+        draw_screen_usb();
+        epd_update();
+        
+        OSCTUNEbits.PLLEN = 1;
+        OSCCON = 0x70;
+        while (!OSCCONbits.OSTS);
+        USBDeviceInit();
+        USBDeviceAttach();
+
+        bool success = false;
+        while (!success && RA2) {
+            success = usb_heartbeat();
+        }
+        DSGPR0 = success;
+        // Clock out success message
+        for (uint8_t i = 0; i < 16; i++) {
+            usb_heartbeat();
+        }
+        USBDeviceDetach();
+    } else if (!RA2) { // USB has been removed, mark ourselves as settable again
+        DSGPR0 = 0;
+    }
     
-    draw_time(batt_voltage_mv);
-    
-    spi_init();
-    epd_init_pico_213_v2();
-    epd_blit();
-    epd_off();
+    draw_screen_main();
+    epd_update();
     
     TRISA = 0xFF;
     TRISB = 0xFF;
@@ -54,13 +68,6 @@ void main(void) {
     SLEEP();
     
     while (1);
-    
-    /*USBDeviceInit();
-    USBDeviceAttach();
-    
-    while (1) {
-        usb_heartbeat();
-    }*/
 }
 
 void __interrupt() handler(void) {
@@ -73,6 +80,8 @@ void __interrupt() handler(void) {
     }
     if (PIR3bits.RTCCIF) {
         PIR3bits.RTCCIF = 0;
-        usb_trig();
+    }
+    if (INTCON3bits.INT1IF) {
+        INTCON3bits.INT1IF = 0;
     }
 }

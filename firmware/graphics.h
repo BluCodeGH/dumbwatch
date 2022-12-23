@@ -4,8 +4,10 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-void draw_time(uint16_t batt);
+uint8_t get_pixel_byte(uint8_t x, uint8_t y, uint8_t row);
 
-bool get_pixel(uint8_t x, uint8_t y);
+void draw_screen_main(void);
+
+void draw_screen_usb(void);
 
 #endif

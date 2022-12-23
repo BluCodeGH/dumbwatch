@@ -14,4 +14,6 @@ void epd_blit();
 
 void epd_off();
 
+void epd_update(void);
+
 #endif

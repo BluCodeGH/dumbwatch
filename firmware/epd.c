@@ -8,9 +8,6 @@
 
 const bool BUSY = 1; // Whether busy pin is active high (1) or low (0)
 
-int busy_wait;
-int spi_wait;
-
 const uint8_t EPD_2IN13_V2_lut_full_update[] = {
     0x80, 0x60, 0x40, 0x00, 0x00, 0x00, 0x00, //LUT0: BB:     VS 0 ~7
     0x10, 0x60, 0x20, 0x00, 0x00, 0x00, 0x00, //LUT1: BW:     VS 0 ~7
@@ -37,7 +34,9 @@ void spi_init() {
     TRISB3 = 0;
     TRISB4 = 0;
     TRISB5 = 1; // Set busy as input
-    // INTCON2bits.RBPU = 0; // Enable weak pullups on PORTB (for busy))
+    
+    RPINR1 = 8; // Map RB5/RP8 to pin interrupt 1
+    INTCON2bits.INTEDG1 = !BUSY; // Set trigger edge
     
     PIE3bits.SSP2IE = 0; // Enable interrupts
     
@@ -54,7 +53,7 @@ void spi_init() {
     SSP2STATbits.CKE = 1;
     SSP2CON1bits.CKP = 0;
     
-    SSP2CON1bits.SSPM = 0x2; // Clock = Fosc (48 MHz) / 64 = 750 kHz
+    SSP2CON1bits.SSPM = 0x0; // Clock = Fosc / 4
     SSP2CON1bits.SSPEN = 1; // Enable SPI
 }
 
@@ -63,7 +62,7 @@ void epd_command(uint8_t cmd) {
     LATB2 = 0; // CS active
     PIR3bits.SSP2IF = 0; // Clear interrupt flag
     SSP2BUF = cmd;
-    while (!PIR3bits.SSP2IF) spi_wait++;
+    while (!PIR3bits.SSP2IF);
     PIR3bits.SSP2IF = 0; // Clear interrupt flag
     LATB2 = 1; // CS inactive
 }
@@ -73,23 +72,33 @@ void epd_data(uint8_t data) {
     LATB2 = 0; // CS active
     PIR3bits.SSP2IF = 0; // Clear interrupt flag
     SSP2BUF = data;
-    while (!PIR3bits.SSP2IF) spi_wait++;
+    while (!PIR3bits.SSP2IF);
     PIR3bits.SSP2IF = 0; // Clear interrupt flag
     LATB2 = 1; // CS inactive
 }
 
 void epd_wait() {
-    // Some displays are busy high, others busy low
-    while (RB5 == BUSY) busy_wait++;
+    INTCON3bits.INT1IE = 1;
+    OSCCONbits.IDLEN = 0;
+    DSCONHbits.DSEN = 0;
+    if (RB5 == BUSY) {
+        SLEEP();
+        NOP();
+    }
+    INTCON3bits.INT1IE = 0;
+    while (RB5 == BUSY); // in case we woke early
 }
 
 void epd_reset() {
+    uint8_t prev_clk = OSCCON;
+    OSCCON = 0x03;
     LATB4 = 1;
-    __delay_ms(10);
+    for (uint8_t i = 0; i < 25; i++); // roughly 10ms
     LATB4 = 0;
-    __delay_ms(10);
+    for (uint8_t i = 0; i < 25; i++); // roughly 10ms
     LATB4 = 1;
-    __delay_ms(10);
+    for (uint8_t i = 0; i < 25; i++); // roughly 10ms
+    OSCCON = prev_clk;
 }
 
 void epd_init_pico_213_v2() {   
@@ -156,14 +165,20 @@ void epd_init_pico_213_v2() {
 
 void epd_blit() {
     epd_command(0x24);
+    uint8_t x = 0;
+    uint8_t y = 0;
+    uint8_t row = 0;
     for (uint16_t i = 0; i < SIZE_X * SIZE_Y / 8; i++) {
-        uint8_t x = i % 16;
-        uint8_t y = i / 128;
-        if (x == 15 || !get_pixel(x, y)) {
-            epd_data(0xFF);
-            continue;
+        epd_data(get_pixel_byte(x, y, row));
+        x += 1;
+        if (x >= SIZE_X / 8) {
+            x = 0;
+            row += 1;
+            if (row >= 8) {
+                row = 0;
+                y += 1;
+            }
         }
-        epd_data(0x00);
     }
     
     epd_command(0x22);
@@ -179,4 +194,11 @@ void epd_off() {
     
     epd_command(0x10);
     epd_data(0x01);
+}
+
+void epd_update() {
+    spi_init();
+    epd_init_pico_213_v2();
+    epd_blit();
+    epd_off();
 }
