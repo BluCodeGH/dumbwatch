@@ -3,12 +3,12 @@
 
 #include <stdint.h>
 
-const uint8_t SIZE_X = 128;
-const uint8_t SIZE_Y = 250;
+extern const uint8_t SIZE_X;
+extern const uint8_t SIZE_Y;
 
 void spi_init();
 
-void epd_init_pico_213_v2();
+void epd_init();
 
 void epd_blit();
 

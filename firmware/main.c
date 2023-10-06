@@ -25,15 +25,17 @@ void main(void) {
     if (!from_sleep) {
         rtc_init();
         DSGPR0 = 0; // mark that we haven't had our time set by USB
+        // DSGPR0 is a general purpose register maintained in deep sleep
     }
     
-    ANCON0bits.PCFG2 = 1;
+    ANCON0bits.PCFG2 = 1; // Set AN2 (A2) as digital input
     TRISA2 = 1;
-    if (RA2 && !DSGPR0) { // USB is connected
+    if (RA2 && !DSGPR0) { // USB is connected and the time hasn't been set
         __delay_ms(500); // see if we are about to be programmed
         draw_screen_usb();
         epd_update();
         
+        // Start up the fast oscillator for USB
         OSCTUNEbits.PLLEN = 1;
         OSCCON = 0x70;
         while (!OSCCONbits.OSTS);
@@ -61,6 +63,7 @@ void main(void) {
     TRISB = 0xFF;
     TRISC = 0xFF;
     
+    // Enter deep sleep
     INTCONbits.GIE = 0;
     WDTCONbits.REGSLP = 1;
     OSCCONbits.IDLEN = 0;
@@ -82,6 +85,7 @@ void __interrupt() handler(void) {
         PIR3bits.RTCCIF = 0;
     }
     if (INTCON3bits.INT1IF) {
+        // Used to wake ourselves from sleep on EPD actions complete
         INTCON3bits.INT1IF = 0;
     }
 }
