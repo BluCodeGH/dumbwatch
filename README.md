@@ -2,8 +2,8 @@
 
 ## Images
 
-![Mockup](images/mockup.jpg)
-A mockup of the PCB and display on a wrist band.
+![Assembly](images/assembly.jpg)
+The final assembled watch.
 
 ![Battery Test](images/battery_test.jpg)
 Running a battery life and RTC test using a stand-in display.
